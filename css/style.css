@@ -23,9 +23,17 @@
     grid-template-rows: repeat(18,1fr);
     grid-template-columns: repeat(18,1fr);
 }  
+/* head of the snake  */
 .head{
-    background-color: red;
+    background-color: red; head 
 }
+
+/* body part of the snake */
+.snake{
+    background-color:purple;
+}
+/* food of the snake  */
 .food{
-    background-color: purple;
+    background-color: yellow;
+
 }
