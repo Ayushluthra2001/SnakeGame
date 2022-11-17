@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Fira+Sans:wght@200&family=Lato:wght@700&family=New+Tegomin&family=Roboto:wght@300&display=swap');
 *{
     padding:0;
     margin:0;
@@ -23,17 +24,34 @@
     grid-template-rows: repeat(18,1fr);
     grid-template-columns: repeat(18,1fr);
 }  
+#scoreBox{
+    position: absolute;
+    top: 9px;
+    right: 200px;
+    font-size: 30px;
+    font-weight: bold;
+    font-family: 'New Tegomin', serif
+}
 /* head of the snake  */
 .head{
-    background-color: red; head 
+    background: linear-gradient(red,yellow); 
+    border: 2px solid purple;
+    transform: scale(1.02);
+    border-radius: 9px;
+
 }
 
 /* body part of the snake */
 .snake{
     background-color:purple;
+    border:.25vmin solid white;
+    border-radius: 12px;
+
 }
 /* food of the snake  */
 .food{
-    background-color: yellow;
+    background: linear-gradient(red,purple);
+    border: .25vmin solid black;
+    border-radius: 8px;
 
 }

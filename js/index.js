@@ -1,14 +1,15 @@
+
 // Constant and variables declearation 
 
 // initial dirrection defined 
 let inputDir = { x: 0, y: 0 };
 
 // adding sounds
-const foodSound = new Audio('../music/food.mp3');
-const gameOverSound = new Audio('../music/gameover.mp3');
-const moveSound = new Audio('../music/move.mp3');
-const musicSound = new Audio('../music/music.mp3');
-let speed = 2;
+const foodSound = new Audio('./music/food.mp3');
+const gameOverSound = new Audio('./music/gameover.mp3');
+const moveSound = new Audio('./music/move.mp3');
+const musicSound = new Audio('./music/music.mp3');
+let speed = 5;
 let lastPaintTime = 0;
 let snakeArr = [{ x: 13, y: 15 }];
 food = { x: 6, y: 7 }; // food is an object as food is an single particle and snake is array because has lot of element when he eat more food  
@@ -24,8 +25,19 @@ function main(currentTime) {
     gameEngine();
 }
 function isCollide(snakeArr){
-    return false;
+    // if you snake bump on its body 
+    for (let index = 1; index < snakeArr.length; index++) {
+        if(snakeArr[index].x===snakeArr[0].x && snakeArr[index].y===snakeArr[0].y){
+            return true;
+        }
+    }
+        // if you bump into the wall 
+        if(snakeArr[0].x>=18 || snakeArr[0].x<=0 || snakeArr[0].y>=18 || snakeArr[0].y<=0){
+            return true;
+        }
+    
 }
+
 function gameEngine() {
     // part 1  : updating the snake array that contain locataion of snake body part
 
@@ -33,20 +45,46 @@ function gameEngine() {
         gameOverSound.play();
         musicSound.pause();
         inputDir={x:0,y:0};
+        score=0;
+        speed=5;
+        scoreBox.innerHTML="Score :"+score; 
         alert("Gmae Over. Press any key to play again!");
         snakeArr=[{x:13,y:15}];
         musicSound.play();
-        score-0;
+        
+        
     }
     // if you have eaten the food ,increment the score and regenerate the food 
     if(snakeArr[0].y === food.y && snakeArr[0].x==food.x){
-        snakeArr.unshift({x:snakeArr[0].x+inputDir.x ,y:snakeArr[0].y+inputDir.x }); // adding body part when snake eat food
+        foodSound.play();
+        score+=1;
+        if(score>=10){
+            if(score%2==0) speed+=1;
+        }
+        else {
+            if(score%5==0)speed+=1;
+        }
+        scoreBox.innerHTML="Score :"+score;
+        snakeArr.unshift({x:snakeArr[0].x+inputDir.x ,y:snakeArr[0].y+inputDir.y }); // adding body part when snake eat food
         let a=2;
         let b=16;
-        food= {x:2+Math.round(a+(b-a)*Math.random()),y:2+Math.round(a+(b-a)*Math.random())}; // generating new food and generating in randow 
-        // moving the snake 
+        food= {x:Math.round(a+(b-a)*Math.random()),y:Math.round(a+(b-a)*Math.random())}; // generating new food and generating in randow 
+        
+
     }
 
+    // moving the snake 
+
+    for(let i=snakeArr.length-2;i>=0;i--){
+        
+        snakeArr[i+1]={...snakeArr[i]}; // we can't write it as snakearr[i+1]=snakeArr[i] because it will not work 
+                                        // so here we are creating new object and putting that object in snakearr[i+1];
+
+    }
+
+    // updation for first element or 0th index 
+    snakeArr[0].x+=inputDir.x;
+    snakeArr[0].y+=inputDir.y;
     // part 2  : Desplay the snake  and food
 
     // Display the snake
@@ -75,10 +113,11 @@ function gameEngine() {
 // Main Logic statrs here 
 window.requestAnimationFrame(main);
 // when we press any key 
+
 window.addEventListener('keydown', e => {
     inputDir = { x:0,y:1 }; // start the game when we press any key 
     moveSound.play();
-    // musicSound.play();
+    musicSound.play();
     switch (e.key) {
         case "ArrowUp":
             console.log("ArrowUp");
@@ -92,14 +131,14 @@ window.addEventListener('keydown', e => {
             inputDir.y=1;
             break;
         case "ArrowRight":
-            console.log("ArrowUp");
-            inputDir.x=-1;
+            console.log("ArrowRight");
+            inputDir.x=1;
             inputDir.y=0;
 
             break;
-        case "ArrowUpLeft":
-            console.log("ArrowUp");
-            inputDir.x=1;
+        case "ArrowLeft":
+            console.log("ArrowLeft");
+            inputDir.x=-1;
             inputDir.y=0;
 
             break;
