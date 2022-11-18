@@ -47,24 +47,30 @@ function gameEngine() {
         inputDir={x:0,y:0};
         score=0;
         speed=5;
-        scoreBox.innerHTML="Score :"+score; 
+        scoreBox.innerHTML="Score: "+score; 
         alert("Gmae Over. Press any key to play again!");
         snakeArr=[{x:13,y:15}];
         musicSound.play();
         
         
     }
+    
     // if you have eaten the food ,increment the score and regenerate the food 
     if(snakeArr[0].y === food.y && snakeArr[0].x==food.x){
         foodSound.play();
         score+=1;
+        if(score>hiscoreval){
+            hiscoreval=score;
+            localStorage.setItem("hiscore",JSON.stringify(hiscoreval));
+            hiscorebox.innerHTML= "Hi Score:  "+hiscoreval;
+        }
         if(score>=10){
             if(score%2==0) speed+=1;
         }
         else {
             if(score%5==0)speed+=1;
         }
-        scoreBox.innerHTML="Score :"+score;
+        scoreBox.innerHTML="Score: "+score;
         snakeArr.unshift({x:snakeArr[0].x+inputDir.x ,y:snakeArr[0].y+inputDir.y }); // adding body part when snake eat food
         let a=2;
         let b=16;
@@ -111,6 +117,16 @@ function gameEngine() {
 
 
 // Main Logic statrs here 
+// use of local storage to store high score
+let hiscore=localStorage.getItem("hiscore");
+
+if(hiscore===null){
+     hiscoreval=0;
+     localStorage.setItem("hiscore",JSON.stringify(hiscoreval))
+}else{
+    hiscoreval=JSON.parse(hiscore);
+    hiscorebox.innerHTML= "Hi Score:  "+hiscore;
+}
 window.requestAnimationFrame(main);
 // when we press any key 
 
